@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promoción a Oficial — Policía Municipal de Madrid</title>
+<style>
+  :root{
+    --ink:#1c2333;
+    --paper:#fafbfc;
+    --card:#ffffff;
+    --navy:#1b2a4a;
+    --blue:#2456a6;
+    --blue-soft:#e8eef8;
+    --green:#2e7d4f;
+    --green-soft:#e7f3ec;
+    --red:#b3382c;
+    --red-soft:#faeae8;
+    --amber:#9a6b15;
+    --amber-soft:#faf3e2;
+    --line:#dde2ea;
+    --muted:#6b7280;
+    --radius:10px;
+    --serif:Georgia,'Times New Roman',serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --mono:ui-monospace,'Cascadia Code',Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;min-height:100vh}
+  .wrap{max-width:860px;margin:0 auto;padding:24px 16px 80px}
+
+  header.top{border-bottom:3px double var(--navy);padding-bottom:14px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+  .brand h1{font-family:var(--serif);font-size:1.45rem;font-weight:700;color:var(--navy);letter-spacing:.2px}
+  .brand .sub{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-top:2px}
+  nav.tabs{display:flex;gap:6px;flex-wrap:wrap}
+  nav.tabs button{background:none;border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:.85rem;cursor:pointer;color:var(--ink);font-family:var(--sans)}
+  nav.tabs button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+  nav.tabs button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+  .card h2{font-family:var(--serif);font-size:1.15rem;color:var(--navy);margin-bottom:10px}
+  .muted{color:var(--muted);font-size:.9rem}
+  .hidden{display:none!important}
+
+  button.primary{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:11px 20px;font-size:.95rem;cursor:pointer;font-weight:600}
+  button.primary:hover{background:#1d4890}
+  button.ghost{background:none;border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-size:.9rem;cursor:pointer;color:var(--ink)}
+  button.ghost:hover{border-color:var(--blue);color:var(--blue)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:.82rem;font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .field input[type=number],.field input[type=text],.field input[type=password],.field select,.field textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-size:.95rem;font-family:var(--sans);background:#fff;color:var(--ink)}
+  .field textarea{font-family:var(--mono);font-size:.8rem;min-height:130px}
+  .row{display:flex;gap:14px;flex-wrap:wrap}
+  .row>.field{flex:1;min-width:160px}
+  .checks{display:flex;flex-wrap:wrap;gap:8px}
+  .checks label{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.85rem;cursor:pointer;background:#fff}
+  .checks label:has(input:checked){background:var(--blue-soft);border-color:var(--blue)}
+  .switch{display:flex;align-items:center;gap:8px;font-size:.9rem;cursor:pointer}
+
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+  .kpi .n{font-family:var(--serif);font-size:1.7rem;font-weight:700;color:var(--navy)}
+  .kpi .l{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+
+  /* Expediente por tema */
+  .tema-row{display:grid;grid-template-columns:minmax(90px,160px) 1fr 88px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+  .tema-row:last-child{border-bottom:none}
+  .tema-row .name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .bar{height:9px;background:#eef0f4;border-radius:999px;overflow:hidden;position:relative}
+  .bar>span{display:block;height:100%;border-radius:999px}
+  .pct{text-align:right;font-family:var(--mono);font-size:.82rem;color:var(--muted)}
+
+  /* Quiz */
+  .qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:.85rem;color:var(--muted);flex-wrap:wrap;gap:8px}
+  .tag{background:var(--blue-soft);color:var(--blue);border-radius:999px;padding:3px 11px;font-weight:600;font-size:.78rem}
+  .progressbar{height:5px;background:#eef0f4;border-radius:999px;margin-bottom:18px;overflow:hidden}
+  .progressbar>span{display:block;height:100%;background:var(--blue);transition:width .25s ease}
+  @media (prefers-reduced-motion:reduce){.progressbar>span{transition:none}}
+  .qtext{font-family:var(--serif);font-size:1.12rem;line-height:1.5;margin-bottom:18px}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer;background:#fff;text-align:left;font-size:.95rem;width:100%;font-family:var(--sans);color:var(--ink)}
+  .opt:hover{border-color:var(--blue)}
+  .opt .letter{font-family:var(--mono);font-weight:700;color:var(--muted);flex-shrink:0}
+  .opt.sel{border-color:var(--blue);background:var(--blue-soft)}
+  .opt.ok{border-color:var(--green);background:var(--green-soft)}
+  .opt.ok .letter{color:var(--green)}
+  .opt.ko{border-color:var(--red);background:var(--red-soft)}
+  .opt.ko .letter{color:var(--red)}
+  .explain{margin-top:14px;border-left:3px solid var(--blue);background:var(--blue-soft);padding:11px 14px;border-radius:0 8px 8px 0;font-size:.9rem}
+  .quiznav{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+
+  /* Resultado */
+  .verdict{text-align:center;padding:10px 0 4px}
+  .verdict .score{font-family:var(--serif);font-size:3rem;font-weight:700;color:var(--navy)}
+  .verdict .note{font-size:.95rem;color:var(--muted);margin-top:4px}
+  .review-item{border-top:1px solid var(--line);padding:13px 0;font-size:.9rem}
+  .review-item .rq{font-weight:600;margin-bottom:4px}
+  .review-item .ra{margin-left:2px}
+  .ok-t{color:var(--green);font-weight:600}
+  .ko-t{color:var(--red);font-weight:600}
+
+  .filebtn{position:relative;overflow:hidden;display:inline-block}
+  .filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+  code{font-family:var(--mono);font-size:.82em;background:#eef0f4;padding:1px 5px;border-radius:4px}
+  pre{font-family:var(--mono);font-size:.76rem;background:#f2f4f8;border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;margin-top:8px}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 20px;border-radius:8px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .25s}
+  .toast.show{opacity:1}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+
+  /* Identidad PMM */
+  .damero{height:10px;background:repeating-conic-gradient(var(--navy) 0% 25%, #fff 0% 50%) 0 0/10px 10px;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand svg{flex-shrink:0}
+  .stamp{display:inline-block;margin-top:12px;padding:5px 20px;border:3px solid;border-radius:6px;font-family:var(--serif);font-weight:700;letter-spacing:.28em;font-size:1.05rem;transform:rotate(-3deg);text-transform:uppercase}
+  .stamp.apto{color:var(--green);border-color:var(--green)}
+  .stamp.noapto{color:var(--red);border-color:var(--red)}
+  .xpline{margin-top:14px;font-family:var(--mono);font-size:.85rem;color:#8a6d1a;font-weight:600}
+  footer.pmm{margin-top:34px;padding-top:12px;border-top:3px double var(--navy);font-size:.75rem;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.1em}
+
+  /* Mapa de preguntas del test */
+  .qmap{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
+  .qmap button{width:31px;height:28px;border:1px solid var(--line);border-radius:6px;background:#fff;font-family:var(--mono);font-size:.72rem;cursor:pointer;color:var(--ink);padding:0}
+  .qmap button.cur{outline:2px solid var(--navy);outline-offset:1px;font-weight:700}
+  .qmap button.ok{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+  .qmap button.ko{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+  .qmap button.bk{background:var(--amber-soft);border-color:var(--amber);color:var(--amber)}
+  .qmap button.ans{background:var(--blue-soft);border-color:var(--blue);color:var(--blue)}
+
+  /* Cuaderno de errores */
+  .badges{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .badge{font-size:.7rem;border-radius:999px;padding:2px 10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .badge.pend{background:var(--red-soft);color:var(--red)}
+  .badge.sup{background:var(--green-soft);color:var(--green)}
+  .badge.info{background:#eef0f4;color:var(--muted);text-transform:none;font-weight:600}
+  .opt.static{cursor:default}
+  .cua-q{font-family:var(--serif);font-size:1.02rem;line-height:1.5;margin-bottom:12px}
+
+  /* Impugnación */
+  .impug{margin-top:12px}
+  .impug-open{background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;padding:4px 0;text-decoration:underline;text-underline-offset:2px}
+  .impug-open:hover{color:var(--red)}
+  .impug-panel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;padding:10px;background:#faf7f2;border:1px dashed var(--amber);border-radius:8px}
+  .impug-opt{width:34px;height:30px;border:1px solid var(--line);border-radius:6px;background:#fff;font-family:var(--mono);font-size:.8rem;cursor:pointer;color:var(--ink)}
+  .impug-opt:hover{border-color:var(--navy)}
+  .impug-opt.cur{background:var(--green-soft);border-color:var(--green);color:var(--green);font-weight:700}
+  .impug-opt.prop{background:var(--amber-soft);border-color:var(--amber);color:var(--amber);font-weight:700}
+  .impug-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .qact-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .lbl-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .linkbtn{background:none;border:none;color:var(--blue);font-size:.75rem;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;font-family:inherit;text-transform:none;letter-spacing:normal;font-weight:600}
+  .linkbtn:hover{color:var(--navy)}
+  .qact-star{background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;padding:4px 0;text-decoration:underline;text-underline-offset:2px}
+  .qact-star:hover{color:#b45309}
+  .qact-star.on{color:#b45309;font-weight:700;text-decoration:none}
+  .badge.star{background:#fff4e5;color:#b45309}
+
+  /* Carrera profesional */
+  .carrera-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+  .rank-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+  .rank-name{font-family:var(--serif);font-weight:700;font-size:1.25rem;color:var(--navy)}
+  .streak{font-weight:700;font-size:1.05rem;background:#fff4e5;color:#b45309;border-radius:999px;padding:6px 14px;white-space:nowrap}
+  .streak.off{background:#eef0f4;color:var(--muted)}
+  .xpbar{height:10px;border-radius:999px;background:#e8ebf1;overflow:hidden}
+  .xpbar span{display:block;height:100%;background:linear-gradient(90deg,var(--navy),#c9a227);border-radius:999px;transition:width .4s}
+  .xpinfo{margin:6px 0 12px;font-size:.8rem}
+  .goalrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;font-size:.85rem}
+  .goalbar{flex:1;min-width:110px;height:8px;border-radius:999px;background:#e8ebf1;overflow:hidden}
+  .goalbar span{display:block;height:100%;background:var(--green);border-radius:999px;transition:width .4s}
+  .goalrow input{width:62px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-family:var(--mono);font-size:.8rem}
+  .medals{display:flex;gap:8px;flex-wrap:wrap}
+  .medal{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.15rem;border:2px solid #c9a227;background:#fdf6e3;color:#8a6d1a;cursor:help}
+  .medal.locked{border-color:var(--line);background:#f1f3f6;color:#b6bcc7;filter:grayscale(1)}
+
+  /* Desplegables */
+  details.fold summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  details.fold summary::-webkit-details-marker{display:none}
+  details.fold summary h2,details.fold summary h3{margin:0}
+  details.fold summary h3{font-family:var(--serif);font-size:.98rem;color:var(--navy)}
+  details.fold .chev{color:var(--muted);font-size:.85rem;transition:transform .2s;flex-shrink:0}
+  details[open].fold > summary .chev{transform:rotate(180deg)}
+  details.fold .fold-body{margin-top:12px}
+  details.fold.sub{border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+  details.fold.sub:first-child{border-top:none;padding-top:0;margin-top:0}
+  details.fold.sub .fold-body p{margin-bottom:8px;font-size:.86rem;line-height:1.55}
+
+  /* Protecciones de desborde en cualquier tamaño */
+  .qtext,.opt span,.review-item,.explain,.checks label{overflow-wrap:anywhere}
+  svg{max-width:100%}
+
+  /* ===== Móvil ===== */
+  @media (max-width:600px){
+    .wrap{padding:14px 10px 60px}
+    .card{padding:14px 12px}
+    header.top{flex-direction:column;align-items:flex-start;gap:10px}
+    .brand h1{font-size:1.2rem}
+    .brand svg{width:38px;height:38px}
+    nav.tabs{width:100%}
+    nav.tabs button{flex:1;text-align:center;padding:8px 6px}
+
+    /* iOS hace zoom si el input tiene menos de 16px */
+    .field input[type=number],.field input[type=text],.field input[type=password],.field select,.field textarea{font-size:16px}
+
+    .kpis{grid-template-columns:repeat(2,1fr);gap:8px}
+    .kpi{padding:10px 12px}
+    .kpi .n{font-size:1.35rem}
+
+    .row{gap:8px}
+    .row>.field{min-width:100%}
+    .field .checks label{max-width:100%}
+
+    .qtext{font-size:1.02rem}
+    .opt{padding:11px 11px;font-size:.9rem}
+    .qmap{gap:4px}
+    .qmap button{width:27px;height:26px;font-size:.68rem}
+
+    .quiznav{flex-direction:column-reverse;gap:8px}
+    .quiznav>div{display:flex;flex-wrap:wrap;gap:8px;width:100%}
+    .quiznav>div button{flex:1;min-width:110px}
+    .quiznav>#btn-quit{width:100%}
+
+    .tema-row{grid-template-columns:minmax(64px,96px) 1fr 52px;gap:8px;font-size:.82rem}
+    .pct{font-size:.74rem}
+
+    .verdict .score{font-size:2.3rem}
+    .stamp{font-size:.92rem;letter-spacing:.2em;padding:4px 14px}
+
+    .actions{flex-direction:column}
+    .actions button{width:100%}
+
+    .toast{max-width:92vw;text-align:center}
+    pre{font-size:.68rem}
+    footer.pmm{font-size:.66rem}
+  }
+</style>
+</head>
+<body>
+<div class="damero" aria-hidden="true"></div>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" width="46" height="46" role="img" aria-label="Emblema">
+        <path d="M32 3 L57 11 V30 C57 46.5 46.5 57 32 61 C17.5 57 7 46.5 7 30 V11 Z" fill="var(--navy)"/>
+        <path d="M32 9 L51.5 15.5 V30 C51.5 43 43.5 51.5 32 55 C20.5 51.5 12.5 43 12.5 30 V15.5 Z" fill="none" stroke="#c9a227" stroke-width="2"/>
+        <path d="M32 20 L34.94 27.95 L43.41 28.29 L36.76 33.55 L39.05 41.71 L32 37 L24.95 41.71 L27.24 33.55 L20.59 28.29 L29.06 27.95 Z" fill="#c9a227"/>
+      </svg>
+      <div>
+        <h1>Promoción a Oficial</h1>
+        <div class="sub">Policía Municipal de Madrid · Banco de tests</div>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button data-view="home" class="active">Nuevo test</button>
+      <button data-view="stats">Expediente</button>
+      <button data-view="bank">Configuración</button>
+    </nav>
+  </header>
+
+  <!-- ===== VISTA: NUEVO TEST ===== -->
+  <section id="view-home">
+    <div class="card carrera">
+      <div class="carrera-head">
+        <div>
+          <div class="rank-label">Empleo actual</div>
+          <div class="rank-name" id="ca-rank">—</div>
+        </div>
+        <div class="streak" id="ca-streak" title="Días seguidos cumpliendo el objetivo diario">🔥 0</div>
+      </div>
+      <div class="xpbar"><span id="ca-xpbar" style="width:0%"></span></div>
+      <div class="muted xpinfo" id="ca-xpinfo"></div>
+      <div class="goalrow">
+        <span class="muted">Objetivo de hoy (10 preguntas):</span>
+        <div class="goalbar"><span id="ca-goalbar" style="width:0%"></span></div>
+        <span class="muted" id="ca-goaltxt">0/10</span>
+      </div>
+      <div class="medals" id="ca-medals"></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="n" id="kpi-total">0</div><div class="l">Preguntas en banco</div></div>
+      <div class="kpi"><div class="n" id="kpi-done">0</div><div class="l">Respondidas</div></div>
+      <div class="kpi"><div class="n" id="kpi-acc">—</div><div class="l">Acierto global</div></div>
+      <div class="kpi"><div class="n" id="kpi-fail">0</div><div class="l">Falladas pendientes</div></div>
+    </div>
+
+    <div class="card">
+      <h2>Configurar test</h2>
+      <div class="row">
+        <div class="field">
+          <label for="cfg-n">Nº de preguntas</label>
+          <input type="number" id="cfg-n" value="20" min="1" max="200">
+        </div>
+        <div class="field">
+          <label for="cfg-mode">Modo</label>
+          <select id="cfg-mode">
+            <option value="estudio">Estudio — corrección inmediata</option>
+            <option value="examen">Examen — corrección al final</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cfg-pool">Origen</label>
+          <select id="cfg-pool">
+            <option value="all">Todo el banco</option>
+            <option value="failed">Solo falladas</option>
+            <option value="unseen">Solo no vistas</option>
+            <option value="interesting">Solo interesantes ★</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lbl-row">Temas incluidos <button type="button" class="linkbtn" id="btn-temas-all">Desmarcar todos</button></label>
+        <div class="checks" id="cfg-temas"></div>
+      </div>
+      <div class="field">
+        <label>Dificultad</label>
+        <div class="checks" id="cfg-diff">
+          <label><input type="checkbox" checked value="facil"> Fácil</label>
+          <label><input type="checkbox" checked value="media"> Media</label>
+          <label><input type="checkbox" checked value="dificil"> Difícil</label>
+        </div>
+        <p class="muted" id="diff-note" style="margin-top:5px;font-size:.78rem"></p>
+      </div>
+      <div class="row">
+        <div class="field" style="max-width:240px">
+          <label for="cfg-penalty">Penalización por error (puntos)</label>
+          <input type="number" id="cfg-penalty" value="0.20" min="0" max="1" step="0.05">
+        </div>
+        <div class="field" style="max-width:240px">
+          <label for="cfg-timer">Tiempo límite (minutos)</label>
+          <input type="number" id="cfg-timer" value="0" min="0" max="300">
+          <p class="muted" id="timer-note" style="margin-top:4px;font-size:.78rem"></p>
+        </div>
+      </div>
+      <div class="field">
+        <label class="switch"><input type="checkbox" id="cfg-sr" checked> Repetición espaciada: priorizar falladas, en blanco y no vistas</label>
+      </div>
+      <button class="primary" id="btn-start">Empezar test</button>
+      <p class="muted" id="home-empty" style="margin-top:10px"></p>
+    </div>
+  </section>
+
+  <!-- ===== VISTA: QUIZ ===== -->
+  <section id="view-quiz" class="hidden">
+    <div class="card">
+      <div class="qhead">
+        <span id="q-counter">Pregunta 1 / 20</span>
+        <span style="display:flex;gap:10px;align-items:center">
+          <span id="q-timer" style="display:none;font-family:var(--mono);font-weight:700;font-size:.95rem"></span>
+          <span class="tag" id="q-tema">Tema 1</span>
+        </span>
+      </div>
+      <div class="progressbar"><span id="q-progress" style="width:0%"></span></div>
+      <div class="qmap" id="q-map"></div>
+      <p class="qtext" id="q-text"></p>
+      <div class="opts" id="q-opts"></div>
+      <div class="explain hidden" id="q-explain"></div>
+      <div id="q-impug"></div>
+      <div class="quiznav">
+        <button class="ghost" id="btn-quit">Abandonar</button>
+        <div style="display:flex;gap:10px">
+          <button class="ghost" id="btn-prev">← Anterior</button>
+          <button class="ghost" id="btn-blank">Dejar en blanco</button>
+          <button class="primary" id="btn-next" disabled>Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VISTA: RESULTADO ===== -->
+  <section id="view-result" class="hidden">
+    <div class="card">
+      <div class="verdict">
+        <div class="score" id="r-score">—</div>
+        <div class="note" id="r-note"></div>
+        <div><span class="stamp" id="r-stamp"></span></div>
+        <div class="xpline" id="r-xp"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Revisión</h2>
+      <div id="r-review"></div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="btn-again">Nuevo test — misma configuración</button>
+      <button class="ghost" id="btn-retry-failed">Repasar falladas y en blanco de este test</button>
+      <button class="ghost" id="btn-home">Volver a inicio</button>
+    </div>
+  </section>
+
+  <!-- ===== VISTA: EXPEDIENTE ===== -->
+  <section id="view-stats" class="hidden">
+    <div class="card">
+      <details class="fold">
+        <summary><h2>Expediente por tema</h2><span class="chev">▾</span></summary>
+        <div class="fold-body">
+          <p class="muted" style="margin-bottom:10px">Porcentaje de acierto acumulado. Prioriza el repaso de lo que esté por debajo del 70&nbsp;%.</p>
+          <div id="stats-temas"></div>
+        </div>
+      </details>
+    </div>
+    <div class="card">
+      <h2>Cuaderno de errores</h2>
+      <p class="muted" id="cuaderno-info" style="margin-bottom:12px">Histórico de todas las preguntas falladas alguna vez, resueltas y con su explicación, para estudiarlas.</p>
+      <button class="primary" id="btn-cuaderno">Abrir cuaderno de errores</button>
+    </div>
+    <div class="card">
+      <h2>Preguntas interesantes</h2>
+      <p class="muted" id="inter-info" style="margin-bottom:12px">Preguntas que has marcado con ★ por su dificultad o su matiz, aunque las acertaras. Vuelven más a menudo en la repetición espaciada.</p>
+      <button class="primary" id="btn-inter">Abrir preguntas interesantes</button>
+    </div>
+    <div class="card">
+      <h2>Revisión de impugnadas</h2>
+      <p class="muted" id="impug-info" style="margin-bottom:12px">Bloc de notas de preguntas marcadas como posibles errores, para revisarlas y corregir el JSON cuando quieras.</p>
+      <button class="primary" id="btn-impug">Abrir revisión de impugnadas</button>
+    </div>
+    <div class="card">
+      <details class="fold">
+        <summary><h2>Hoja de servicios — historial de tests</h2><span class="chev">▾</span></summary>
+        <div class="fold-body">
+          <div id="stats-history" class="muted">Sin tests todavía.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== VISTA: CUADERNO DE ERRORES ===== -->
+  <section id="view-cuaderno" class="hidden">
+    <div class="card">
+      <h2>Cuaderno de errores</h2>
+      <p class="muted" style="margin-bottom:12px">Todas las preguntas que has fallado alguna vez, con la respuesta correcta marcada y su explicación. Las <strong>pendientes</strong> son las que fallaste la última vez que las viste; las <strong>superadas</strong>, las que ya has vuelto a acertar después.</p>
+      <div class="row">
+        <div class="field">
+          <label for="cua-tema">Tema</label>
+          <select id="cua-tema"><option value="">Todos los temas</option></select>
+        </div>
+        <div class="field">
+          <label for="cua-estado">Estado</label>
+          <select id="cua-estado">
+            <option value="">Todas</option>
+            <option value="pend">Solo pendientes</option>
+            <option value="sup">Solo superadas</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="primary" id="btn-cua-test">Hacer test con estas preguntas</button>
+        <button class="ghost" id="btn-cua-back">Volver al expediente</button>
+      </div>
+      <p class="muted" id="cua-count" style="margin-top:10px"></p>
+    </div>
+    <div id="cua-list"></div>
+  </section>
+
+  <!-- ===== VISTA: PREGUNTAS INTERESANTES ===== -->
+  <section id="view-inter" class="hidden">
+    <div class="card">
+      <h2>Preguntas interesantes</h2>
+      <p class="muted" style="margin-bottom:12px">Las que has marcado con ★ para tenerlas frescas: aparecen resueltas y con su explicación. Entran con más peso en la repetición espaciada y puedes lanzar un test solo con ellas.</p>
+      <div class="row">
+        <div class="field">
+          <label for="int-tema">Tema</label>
+          <select id="int-tema"><option value="">Todos los temas</option></select>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="primary" id="btn-int-test">Hacer test con estas preguntas</button>
+        <button class="ghost" id="btn-int-back">Volver al expediente</button>
+      </div>
+      <p class="muted" id="int-count" style="margin-top:10px"></p>
+    </div>
+    <div id="int-list"></div>
+  </section>
+
+  <!-- ===== VISTA: REVISIÓN DE IMPUGNADAS ===== -->
+  <section id="view-impug" class="hidden">
+    <div class="card">
+      <h2>Revisión de impugnadas</h2>
+      <p class="muted" style="margin-bottom:12px">Preguntas que tú (o quien use la app) habéis marcado como posibles errores. No se han modificado: aquí solo quedan anotadas con la respuesta que se propone, para que revises y corrijas el JSON de origen cuando quieras. Al corregir el JSON, pulsa «Marcar como corregida» para retirarla de la lista.</p>
+      <div class="actions">
+        <button class="ghost" id="btn-impug-export">Exportar lista (para revisar)</button>
+        <button class="ghost" id="btn-impug-back">Volver al expediente</button>
+      </div>
+      <p class="muted" id="impug-count" style="margin-top:10px"></p>
+    </div>
+    <div id="impug-list"></div>
+  </section>
+
+  <!-- ===== VISTA: CONFIGURACIÓN ===== -->
+  <section id="view-bank" class="hidden">
+
+    <div class="card">
+      <details class="fold">
+        <summary><h2>Instrucciones de uso</h2><span class="chev">▾</span></summary>
+        <div class="fold-body">
+
+          <details class="fold sub">
+            <summary><h3>Primeros pasos</h3><span class="chev">▾</span></summary>
+            <div class="fold-body muted">
+              <p>1. Carga preguntas en el banco. Si la app está publicada en GitHub Pages con un archivo <code>preguntas.json</code> en la misma carpeta, se cargan solas al abrir. También puedes subir un JSON o pegarlo más abajo.</p>
+              <p>2. En <strong>Nuevo test</strong>, elige cuántas preguntas, temas, modo y penalización, y pulsa Empezar.</p>
+              <p>3. Tu progreso se guarda en este navegador y, si configuras la nube, en tu GitHub para compartirlo entre dispositivos.</p>
+            </div>
+          </details>
+
+          <details class="fold sub">
+            <summary><h3>Modos de test</h3><span class="chev">▾</span></summary>
+            <div class="fold-body muted">
+              <p><strong>Estudio</strong>: corrección inmediata al responder, con explicación. Puedes dejar en blanco (revela la respuesta). Con repetición espaciada activada, la app prioriza las preguntas falladas, las no vistas y las de racha corta.</p>
+              <p><strong>Examen</strong>: sin corrección hasta el final. Al marcar una opción pasa sola a la siguiente; para dejar en blanco, pulsa Siguiente sin marcar. Cronómetro opcional. La nota se calcula como en el examen real: (aciertos − penalización × errores) sobre el total, en base 10. Los blancos ni suman ni restan. APTO con 5 o más.</p>
+              <p>En ambos modos tienes el <strong>mapa de preguntas</strong> para saltar a cualquiera y el botón <strong>Anterior</strong>.</p>
+            </div>
+          </details>
+
+          <details class="fold sub">
+            <summary><h3>Expediente y cuaderno de errores</h3><span class="chev">▾</span></summary>
+            <div class="fold-body muted">
+              <p>El <strong>expediente por tema</strong> muestra tu porcentaje de acierto acumulado (verde a partir del 70&nbsp;%). La <strong>hoja de servicios</strong> guarda el historial de tests.</p>
+              <p>El <strong>cuaderno de errores</strong> recoge todas las preguntas que has fallado alguna vez, resueltas y con su explicación. Las <em>pendientes</em> son las que fallaste la última vez; las <em>superadas</em>, las que ya has vuelto a acertar. Puedes filtrarlas y lanzar un test solo con ellas.</p>
+              <p>Las <strong>preguntas interesantes</strong> son las que marcas con ★ tras responderlas, aunque las hayas acertado, porque encierran un matiz que quieres tener fresco. Se guardan en <strong>Expediente → Preguntas interesantes</strong>, entran con más peso en la repetición espaciada y puedes lanzar un test solo con ellas (origen «Solo interesantes»).</p>
+              <p>Si detectas un error en una pregunta, usa <strong>⚑ Impugnar</strong> (tras la corrección, en modo estudio o en el cuaderno) y marca la respuesta que crees correcta. Esto <strong>no cambia la pregunta</strong>: solo la anota en <strong>Expediente → Revisión de impugnadas</strong>, un bloc de notas para que luego revises el JSON de origen y lo corrijas de una sentada. Cuando lo hayas corregido, pulsa «Marcar como corregida» para retirarla de la lista. Las impugnaciones forman parte de tu progreso, así que se sincronizan entre tus dispositivos como el resto.</p>
+            </div>
+          </details>
+
+          <details class="fold sub">
+            <summary><h3>Recompensas: puntos, ascensos y racha</h3><span class="chev">▾</span></summary>
+            <div class="fold-body muted">
+              <p>Cada acierto suma <strong>puntos de servicio</strong>: fácil +1, media +2, difícil +3. Superar una pregunta que tenías fallada da +2 extra. Terminar un test con APTO (nota ≥ 5) suma +5, y un test perfecto (todo acertado, sin blancos) +10.</p>
+              <p>Con los puntos asciendes por el escalafón: Alumno de la Academia (0) → Policía en prácticas (150) → Policía (400) → Oficial (900) → Subinspector (1.800) → Inspector (3.000) → Comisario (4.800) → Comisario Principal (7.000) → Comisario General (10.000).</p>
+              <p>La <strong>racha 🔥</strong> cuenta los días seguidos respondiendo al menos <strong>10 preguntas</strong> (aciertes o falles: la constancia no se castiga por un mal día).</p>
+            </div>
+          </details>
+
+          <details class="fold sub">
+            <summary><h3>Condecoraciones (medallas)</h3><span class="chev">▾</span></summary>
+            <div class="fold-body muted">
+              <p>✉ <strong>Felicitación personal pública</strong>: completa tu primer test.</p>
+              <p>★ <strong>Distintivo de aptitud</strong>: un test perfecto, 10/10 con al menos 10 preguntas.</p>
+              <p>✚ <strong>Cruz al Mérito</strong>: racha de 10 días seguidos.</p>
+              <p>◆ <strong>Medalla al Mérito Profesional</strong>: acierta 100 preguntas difíciles (acumulado).</p>
+              <p>🛡 <strong>Medalla de la Policía Municipal</strong>: APTO en un simulacro en modo examen de 50 o más preguntas con penalización.</p>
+              <p>✔ <strong>Expediente en verde</strong>: supera 50 preguntas del cuaderno de errores.</p>
+              <p>≡ <strong>Hoja de servicios</strong>: responde 1.000 preguntas en total.</p>
+            </div>
+          </details>
+
+          <details class="fold sub">
+            <summary><h3>Sincronización entre dispositivos</h3><span class="chev">▾</span></summary>
+            <div class="fold-body muted">
+              <p>Configura más abajo tu usuario, repositorio y un token de GitHub (fine-grained, con permiso Contents de solo ese repositorio). El progreso se guarda como <code>progreso.json</code> en el repositorio.</p>
+              <p>Con la <strong>sincronización automática</strong> activada, se guarda solo al terminar cada test y se carga lo más reciente al abrir la app. Los botones manuales siguen disponibles. En un ordenador ajeno (por ejemplo, del trabajo), no guardes el token: sin él puedes cargar de un repositorio público, pero no guardar.</p>
+            </div>
+          </details>
+
+        </div>
+      </details>
+    </div>
+
+    <div class="card">
+      <h2>Banco de preguntas</h2>
+      <p class="muted" style="margin-bottom:12px">Sube un archivo <code>.json</code> o pega el contenido abajo. Las preguntas nuevas se añaden al banco; las repetidas (mismo enunciado) se ignoran.</p>
+      <div class="actions" style="margin-bottom:14px">
+        <span class="filebtn"><button class="primary">Subir archivo JSON</button><input type="file" id="file-questions" accept=".json"></span>
+        <button class="ghost" id="btn-load-demo">Cargar preguntas de ejemplo</button>
+        <button class="ghost" id="btn-export-bank">Exportar banco</button>
+        <button class="ghost" id="btn-clear-bank">Vaciar banco</button>
+      </div>
+      <div class="field">
+        <label for="paste-area">O pegar JSON</label>
+        <textarea id="paste-area" placeholder='[{"tema":"Tema 4","pregunta":"...","opciones":["a","b","c","d"],"correcta":1,"explicacion":"..."}]'></textarea>
+      </div>
+      <button class="ghost" id="btn-paste-load">Añadir desde el texto pegado</button>
+      <details class="fold sub" style="margin-top:14px">
+        <summary><h3>Formato esperado</h3><span class="chev">▾</span></summary>
+        <div class="fold-body">
+          <p class="muted">Lista JSON de objetos. <code>correcta</code> es el índice de la opción correcta empezando en 0. <code>dificultad</code> admite <code>facil</code>, <code>media</code> o <code>dificil</code> (si falta, se asume media). <code>explicacion</code> es opcional pero muy recomendable.</p>
+<pre>[
+  {
+    "tema": "Tema 4 — Seguridad ciudadana",
+    "pregunta": "La LO 4/2015 entró en vigor el...",
+    "opciones": ["1 de enero de 2015", "1 de julio de 2015", "1 de abril de 2015"],
+    "correcta": 1,
+    "dificultad": "media",
+    "explicacion": "Disposición final quinta: entrada en vigor el 1 de julio de 2015."
+  }
+]</pre>
+        </div>
+      </details>
+    </div>
+
+    <div class="card">
+      <h2>Sincronización entre dispositivos</h2>
+      <p class="muted" style="margin-bottom:12px">Guarda el progreso (y el banco) como <code>progreso.json</code> en tu repositorio de GitHub y cárgalo desde cualquier dispositivo. Necesitas un token de acceso limitado a ese repositorio. La configuración se guarda solo en este navegador.</p>
+      <div class="row">
+        <div class="field">
+          <label for="sync-owner">Usuario de GitHub</label>
+          <input type="text" id="sync-owner" autocomplete="off" placeholder="tuusuario">
+        </div>
+        <div class="field">
+          <label for="sync-repo">Repositorio</label>
+          <input type="text" id="sync-repo" autocomplete="off" placeholder="tests-oficial">
+        </div>
+      </div>
+      <div class="field">
+        <label for="sync-token">Token (fine-grained, solo ese repositorio)</label>
+        <input type="password" id="sync-token" autocomplete="off" placeholder="github_pat_...">
+      </div>
+      <div class="field">
+        <label class="switch"><input type="checkbox" id="sync-auto"> Sincronización automática: guarda al terminar cada test y carga lo más reciente al abrir la app, sin tener que pulsar los botones</label>
+      </div>
+      <div class="actions">
+        <button class="primary" id="btn-sync-save">Guardar en la nube</button>
+        <button class="ghost" id="btn-sync-load">Cargar de la nube</button>
+      </div>
+      <p class="muted" id="sync-status" style="margin-top:10px"></p>
+    </div>
+
+    <div class="card">
+      <h2>Copia de seguridad del progreso</h2>
+      <p class="muted" style="margin-bottom:12px">Exporta o restaura manualmente el progreso de este navegador. «Borrar progreso» reinicia el expediente, la carrera y las medallas, pero no toca el banco de preguntas.</p>
+      <div class="actions">
+        <button class="ghost" id="btn-export-progress">Exportar progreso</button>
+        <span class="filebtn"><button class="ghost">Importar progreso</button><input type="file" id="file-progress" accept=".json"></span>
+        <button class="ghost" id="btn-reset">Borrar progreso</button>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="pmm">Policía Municipal de Madrid · Promoción interna — Escala básica · Categoría Oficial</footer>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Estado y persistencia ---------- */
+const LS_BANK = "opo_bank_v1";
+const LS_PROG = "opo_progress_v1";
+
+let bank = load(LS_BANK, []);              // [{id, tema, pregunta, opciones[], correcta, explicacion}]
+let prog = load(LS_PROG, {q:{}, history:[]}); // q: {id:{seen,ok,ko,lastKo:boolean}}, history:[{date,n,ok,ko,score,temas[]}]
+
+function load(k, fallback){
+  try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; }
+  catch(e){ return fallback; }
+}
+function save(fromCloud){
+  try{
+    localStorage.setItem(LS_BANK, JSON.stringify(bank));
+    localStorage.setItem(LS_PROG, JSON.stringify(prog));
+  }catch(e){ toast("No se pudo guardar (almacenamiento del navegador lleno o bloqueado)"); }
+  if(fromCloud){
+    try{ localStorage.removeItem(LS_DIRTY); }catch(e){}
+  } else {
+    try{ localStorage.setItem(LS_DIRTY, "1"); }catch(e){}
+    scheduleAutoSync();
+  }
+}
+function hashId(s){
+  let h = 5381;
+  for(let i=0;i<s.length;i++){ h = ((h<<5)+h+s.charCodeAt(i))>>>0; }
+  return "q"+h.toString(36);
+}
+
+/* ---------- Utilidades ---------- */
+const $ = sel => document.querySelector(sel);
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove("show"), 2600);
+}
+function shuffle(a){
+  const arr = a.slice();
+  for(let i=arr.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
+  return arr;
+}
+function esc(s){ const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+function temasList(){ return [...new Set(bank.map(q=>q.tema))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true})); }
+function statFor(id){ return prog.q[id] || {seen:0, ok:0, ko:0, lastKo:false}; }
+
+/* ---------- Carrera profesional (gamificación) ---------- */
+function gamiInit(){
+  if(!prog.gami) prog.gami = {xp:0, days:{}, medals:[], goal:10, hardOk:0, total:0};
+  if(!prog.gami.days) prog.gami.days = {};
+  if(!prog.gami.medals) prog.gami.medals = [];
+  prog.gami.goal = 10; // objetivo diario fijo
+}
+gamiInit();
+
+const RANKS = [
+  ["Alumno de la Academia", 0],
+  ["Policía en prácticas", 150],
+  ["Policía", 400],
+  ["Oficial", 900],
+  ["Subinspector", 1800],
+  ["Inspector", 3000],
+  ["Comisario", 4800],
+  ["Comisario Principal", 7000],
+  ["Comisario General", 10000]
+];
+function rankFor(xp){
+  let cur = RANKS[0], next = null;
+  for(let i=0;i<RANKS.length;i++){
+    if(xp >= RANKS[i][1]) cur = RANKS[i];
+    else { next = RANKS[i]; break; }
+  }
+  return {cur, next};
+}
+
+const MEDALS = [
+  {id:"felicitacion", nombre:"Felicitación personal pública", desc:"Completa tu primer test", icon:"✉"},
+  {id:"aptitud", nombre:"Distintivo de aptitud", desc:"Un test perfecto: 10/10 con al menos 10 preguntas", icon:"★"},
+  {id:"cruz", nombre:"Cruz al Mérito", desc:"Racha de 10 días cumpliendo el objetivo diario", icon:"✚"},
+  {id:"profesional", nombre:"Medalla al Mérito Profesional", desc:"Acierta 100 preguntas difíciles", icon:"◆"},
+  {id:"pmm", nombre:"Medalla de la Policía Municipal", desc:"APTO en un simulacro de 50+ preguntas con penalización", icon:"🛡"},
+  {id:"verde", nombre:"Expediente en verde", desc:"Supera 50 preguntas del cuaderno de errores", icon:"✔"},
+  {id:"hoja", nombre:"Hoja de servicios", desc:"1.000 preguntas respondidas en total", icon:"≡"}
+];
+function todayKey(){
+  const d = new Date();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function dayKey(d){
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function streakInfo(){
+  const days = prog.gami.days, goal = prog.gami.goal;
+  const todayDone = (days[todayKey()]||0) >= goal;
+  let s = todayDone ? 1 : 0;
+  const d = new Date(); d.setDate(d.getDate()-1);
+  while((days[dayKey(d)]||0) >= goal){ s++; d.setDate(d.getDate()-1); }
+  return {streak:s, todayDone};
+}
+function superadasCount(){
+  return bank.filter(q=>{ const s=statFor(q.id); return s.ko>0 && !s.lastKo; }).length;
+}
+function checkMedals(ctx){
+  const earned = [];
+  const has = id => prog.gami.medals.includes(id);
+  const give = id => { prog.gami.medals.push(id); earned.push(MEDALS.find(m=>m.id===id)); };
+  if(!has("felicitacion") && prog.history.length >= 1) give("felicitacion");
+  if(!has("aptitud") && ctx && ctx.perfect) give("aptitud");
+  if(!has("cruz") && streakInfo().streak >= 10) give("cruz");
+  if(!has("profesional") && prog.gami.hardOk >= 100) give("profesional");
+  if(!has("pmm") && ctx && ctx.aptoExamen50) give("pmm");
+  if(!has("verde") && superadasCount() >= 50) give("verde");
+  if(!has("hoja") && prog.gami.total >= 1000) give("hoja");
+  earned.forEach(m=>toast("🎖 Condecoración obtenida: "+m.nombre));
+  return earned;
+}
+
+/* ---------- Navegación de vistas ---------- */
+const views = ["home","quiz","result","stats","bank","cuaderno","impug","inter"];
+function show(view){
+  views.forEach(v => $("#view-"+v).classList.toggle("hidden", v!==view));
+  document.querySelectorAll("nav.tabs button").forEach(b=>{
+    b.classList.toggle("active", b.dataset.view===view || (view==="quiz"&&b.dataset.view==="home") || (view==="result"&&b.dataset.view==="home") || (view==="cuaderno"&&b.dataset.view==="stats") || (view==="impug"&&b.dataset.view==="stats") || (view==="inter"&&b.dataset.view==="stats"));
+  });
+  if(view==="home") renderHome();
+  if(view==="stats") renderStats();
+  if(view==="cuaderno") renderCuaderno();
+  if(view==="impug") renderImpug();
+  if(view==="inter") renderInter();
+}
+document.querySelectorAll("nav.tabs button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    if(quiz.active && b.dataset.view!=="home"){ if(!confirm("Hay un test en curso. ¿Abandonarlo?")) return; stopTimer(); quiz.active=false; }
+    if(quiz.active && b.dataset.view==="home"){ if(!confirm("Hay un test en curso. ¿Abandonarlo?")) return; stopTimer(); quiz.active=false; }
+    show(b.dataset.view);
+  });
+});
+
+/* ---------- Vista: home ---------- */
+function renderCarrera(){
+  gamiInit();
+  const xp = prog.gami.xp;
+  const {cur, next} = rankFor(xp);
+  $("#ca-rank").textContent = cur[0];
+  if(next){
+    const span = next[1] - cur[1];
+    const pct = Math.min(100, Math.round(100*(xp - cur[1])/span));
+    $("#ca-xpbar").style.width = pct+"%";
+    $("#ca-xpinfo").textContent = xp.toLocaleString("es-ES")+" puntos de servicio · faltan "+(next[1]-xp).toLocaleString("es-ES")+" para ascender a "+next[0];
+  } else {
+    $("#ca-xpbar").style.width = "100%";
+    $("#ca-xpinfo").textContent = xp.toLocaleString("es-ES")+" puntos de servicio · máximo empleo alcanzado: Jefe del Cuerpo";
+  }
+  const si = streakInfo();
+  const st = $("#ca-streak");
+  st.textContent = "🔥 "+si.streak+(si.streak===1?" día":" días");
+  st.classList.toggle("off", si.streak===0);
+  st.title = si.todayDone
+    ? "Racha: días seguidos cumpliendo el objetivo. Hoy ya está cumplido."
+    : (si.streak>0 ? "Completa el objetivo de hoy para mantener la racha" : "Cumple el objetivo diario para iniciar una racha");
+  const hoy = prog.gami.days[todayKey()]||0, goal = prog.gami.goal;
+  $("#ca-goalbar").style.width = Math.min(100, Math.round(100*hoy/goal))+"%";
+  $("#ca-goaltxt").textContent = hoy+"/"+goal;
+  const mbox = $("#ca-medals"); mbox.innerHTML = "";
+  MEDALS.forEach(m=>{
+    const d = document.createElement("div");
+    const got = prog.gami.medals.includes(m.id);
+    d.className = "medal"+(got?"":" locked");
+    d.textContent = m.icon;
+    d.title = m.nombre+" — "+m.desc+(got?"":" (pendiente)");
+    mbox.appendChild(d);
+  });
+}
+
+function renderHome(){
+  renderCarrera();
+  const total = bank.length;
+  const seenIds = Object.keys(prog.q).filter(id => bank.some(q=>q.id===id) && prog.q[id].seen>0);
+  const oks = seenIds.reduce((s,id)=>s+prog.q[id].ok,0);
+  const kos = seenIds.reduce((s,id)=>s+prog.q[id].ko,0);
+  const failed = bank.filter(q => statFor(q.id).lastKo).length;
+
+  $("#kpi-total").textContent = total;
+  $("#kpi-done").textContent = seenIds.length;
+  $("#kpi-acc").textContent = (oks+kos)>0 ? Math.round(100*oks/(oks+kos))+"%" : "—";
+  $("#kpi-fail").textContent = failed;
+
+  const box = $("#cfg-temas"); box.innerHTML = "";
+  const temas = temasList();
+  if(temas.length===0){
+    box.innerHTML = '<span class="muted">Sin preguntas cargadas.</span>';
+  } else {
+    temas.forEach(t=>{
+      const l = document.createElement("label");
+      l.innerHTML = '<input type="checkbox" checked value="'+esc(t)+'"> '+esc(t);
+      box.appendChild(l);
+    });
+    box.querySelectorAll("input").forEach(i=>i.addEventListener("change", updateTemasToggle));
+  }
+  updateTemasToggle();
+  $("#home-empty").textContent = total===0 ? "Ve a la pestaña «Preguntas» para cargar tu banco, o prueba con las preguntas de ejemplo." : "";
+  $("#btn-start").disabled = total===0;
+}
+
+/* Botón marcar/desmarcar todos los temas: la etiqueta refleja la acción disponible */
+function updateTemasToggle(){
+  const inputs = [...document.querySelectorAll("#cfg-temas input")];
+  const btn = $("#btn-temas-all");
+  if(inputs.length===0){ btn.style.display = "none"; return; }
+  btn.style.display = "";
+  const todos = inputs.every(i=>i.checked);
+  btn.textContent = todos ? "Desmarcar todos" : "Marcar todos";
+}
+$("#btn-temas-all").addEventListener("click", ()=>{
+  const inputs = [...document.querySelectorAll("#cfg-temas input")];
+  if(inputs.length===0) return;
+  const marcar = !inputs.every(i=>i.checked); // si no están todos, marcar; si lo están, desmarcar
+  inputs.forEach(i=>{ i.checked = marcar; });
+  updateTemasToggle();
+});
+
+/* ---------- Quiz ---------- */
+const quiz = { active:false, items:[], idx:0, answers:[], done:[], mode:"estudio", penalty:false };
+
+let lastCfg = null; // última configuración usada, para "Nuevo test — misma configuración"
+
+function readCfgFromUI(){
+  return {
+    n: Math.max(1, parseInt($("#cfg-n").value)||20),
+    mode: $("#cfg-mode").value,
+    pool: $("#cfg-pool").value,
+    penalty: Math.max(0, parseFloat($("#cfg-penalty").value) || 0),
+    temasSel: [...document.querySelectorAll("#cfg-temas input:checked")].map(i=>i.value),
+    diffSel: $("#cfg-mode").value==="examen"
+      ? ["facil","media","dificil"]
+      : [...document.querySelectorAll("#cfg-diff input:checked")].map(i=>i.value),
+    timerMin: Math.max(0, parseFloat($("#cfg-timer").value)||0),
+    useSR: $("#cfg-mode").value!=="examen" && $("#cfg-sr").checked
+  };
+}
+
+function launchFromCfg(cfg){
+  let candidates = bank.filter(q => cfg.temasSel.includes(q.tema) && cfg.diffSel.includes(q.dificultad || "media"));
+  if(cfg.pool==="failed") candidates = candidates.filter(q => statFor(q.id).lastKo);
+  if(cfg.pool==="unseen") candidates = candidates.filter(q => statFor(q.id).seen===0);
+  if(cfg.pool==="interesting") candidates = candidates.filter(q => esInteresante(q.id));
+  if(candidates.length===0){ toast("No hay preguntas que cumplan esos filtros"); return false; }
+  const items = cfg.useSR
+    ? weightedSample(candidates, Math.min(cfg.n, candidates.length))
+    : shuffle(candidates).slice(0, cfg.n);
+  lastCfg = cfg;
+  startQuiz(items, cfg.mode, cfg.penalty, cfg.timerMin);
+  return true;
+}
+
+$("#btn-start").addEventListener("click", ()=>{ launchFromCfg(readCfgFromUI()); });
+
+/* Repetición espaciada: peso de cada pregunta según su historial */
+function weightFor(q){
+  const st = statFor(q.id);
+  let w;
+  if(st.lastKo) w = 5;                        // fallada o en blanco la última vez
+  else if(st.seen === 0) w = 3;               // nunca vista
+  else w = Math.max(0.5, 3 - (st.streak||0)); // cada acierto seguido la aleja
+  // Las marcadas como interesantes vuelven más a menudo, aunque se acierten
+  if(esInteresante(q.id)) w = Math.max(w * 1.5, 2);
+  return w;
+}
+function weightedSample(items, n){
+  const pool = items.map(q => ({q, w: weightFor(q)}));
+  const out = [];
+  while(out.length < n && pool.length){
+    let r = Math.random() * pool.reduce((s,p)=>s+p.w, 0);
+    let i = 0;
+    for(; i < pool.length-1; i++){ r -= pool[i].w; if(r <= 0) break; }
+    out.push(pool[i].q);
+    pool.splice(i, 1);
+  }
+  return out;
+}
+
+function startQuiz(items, mode, penalty, timerMin){
+  quiz.active = true; quiz.items = items; quiz.idx = 0;
+  quiz.answers = new Array(items.length).fill(null);
+  quiz.done = new Array(items.length).fill(false);
+  quiz.mode = mode; quiz.penalty = penalty;
+  stopTimer();
+  if(mode === "examen" && timerMin > 0){
+    quiz.timeLeft = Math.round(timerMin * 60);
+    $("#q-timer").style.display = "";
+    updateTimerDisplay();
+    quiz.timerId = setInterval(()=>{
+      quiz.timeLeft--;
+      updateTimerDisplay();
+      if(quiz.timeLeft <= 0){ stopTimer(); toast("Tiempo agotado: se corrige el examen"); finishQuiz(); }
+    }, 1000);
+  } else {
+    $("#q-timer").style.display = "none";
+  }
+  show("quiz"); renderQuestion();
+}
+
+function stopTimer(){
+  if(quiz.timerId){ clearInterval(quiz.timerId); quiz.timerId = null; }
+}
+function updateTimerDisplay(){
+  const m = Math.floor(quiz.timeLeft / 60), s = quiz.timeLeft % 60;
+  const el = $("#q-timer");
+  el.textContent = m + ":" + String(s).padStart(2, "0");
+  el.style.color = quiz.timeLeft < 120 ? "var(--red)" : "var(--navy)";
+}
+
+function diffLabel(d){ return {facil:"Fácil", media:"Media", dificil:"Difícil"}[d] || "Media"; }
+
+/* ---------- Impugnación de preguntas ---------- */
+// Registra una impugnación (bandeja de revisión). NO modifica la pregunta:
+// solo la anota para que el autor la revise y corrija el JSON cuando quiera.
+function registrarImpugnacion(q, propuesta){
+  if(!prog.impugnadas) prog.impugnadas = {};
+  const letters = ["a","b","c","d","e","f"];
+  prog.impugnadas[q.id] = {
+    tema: q.tema,
+    pregunta: q.pregunta,
+    opciones: q.opciones.slice(),
+    actual: q.correcta,          // la que el banco marca ahora como correcta
+    propuesta: propuesta,        // la que el usuario propone como correcta
+    fecha: new Date().toISOString()
+  };
+  save();
+}
+/* ---------- Preguntas interesantes ---------- */
+function esInteresante(id){ return !!(prog.interesantes && prog.interesantes[id]); }
+function toggleInteresante(q){
+  if(!prog.interesantes) prog.interesantes = {};
+  if(prog.interesantes[q.id]){ delete prog.interesantes[q.id]; save(); return false; }
+  prog.interesantes[q.id] = new Date().toISOString();
+  save();
+  return true;
+}
+
+function qActions(q, onDone){
+  const letters = ["a","b","c","d","e","f"];
+  const wrap = document.createElement("div");
+  wrap.className = "impug";
+
+  const row = document.createElement("div");
+  row.className = "qact-row";
+
+  // Botón: marcar como interesante
+  const star = document.createElement("button");
+  star.type = "button"; star.className = "qact-star";
+  const pintaStar = ()=>{
+    const on = esInteresante(q.id);
+    star.classList.toggle("on", on);
+    star.textContent = on ? "★ Interesante (quitar)" : "☆ Marcar como interesante";
+    star.title = on ? "Quitar de la lista de preguntas interesantes" : "Guardarla para repasarla más a menudo";
+  };
+  pintaStar();
+  star.addEventListener("click", ()=>{
+    const on = toggleInteresante(q);
+    toast(on ? "★ Guardada en preguntas interesantes" : "Quitada de interesantes");
+    if(onDone) onDone(); else pintaStar();
+  });
+
+  // Botón: impugnar
+  const yaImp = prog.impugnadas && prog.impugnadas[q.id];
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.className = "impug-open";
+  btn.textContent = yaImp ? "⚑ Ya impugnada (propones la "+letters[yaImp.propuesta]+"). Cambiar" : "⚑ Impugnar (marcar la que crees correcta)";
+
+  row.appendChild(star); row.appendChild(btn);
+
+  const panel = document.createElement("div");
+  panel.className = "impug-panel hidden";
+  const lbl = document.createElement("span");
+  lbl.className = "muted"; lbl.textContent = "Creo que la correcta es:";
+  panel.appendChild(lbl);
+  q.opciones.forEach((opt,i)=>{
+    const b = document.createElement("button");
+    b.type="button"; b.className="impug-opt"; b.textContent = letters[i]+")";
+    b.title = opt;
+    if(i===q.correcta) b.classList.add("cur");
+    if(yaImp && i===yaImp.propuesta) b.classList.add("prop");
+    b.addEventListener("click", ()=>{
+      registrarImpugnacion(q, i);
+      toast("Impugnación anotada (propones la "+letters[i]+"). Revísala en «Revisión de impugnadas».");
+      if(onDone) onDone();
+    });
+    panel.appendChild(b);
+  });
+  btn.addEventListener("click", ()=>panel.classList.toggle("hidden"));
+  wrap.appendChild(row); wrap.appendChild(panel);
+  return wrap;
+}
+
+function renderQuestion(){
+  const q = quiz.items[quiz.idx];
+  const done = quiz.done[quiz.idx];
+  const a = quiz.answers[quiz.idx];
+  $("#q-counter").textContent = "Pregunta "+(quiz.idx+1)+" / "+quiz.items.length;
+  $("#q-tema").textContent = q.tema + " · " + diffLabel(q.dificultad);
+  $("#q-progress").style.width = (100*quiz.idx/quiz.items.length)+"%";
+  $("#q-text").textContent = q.pregunta;
+  $("#q-explain").classList.add("hidden");
+  const box = $("#q-opts"); box.innerHTML = "";
+  const letters = ["a","b","c","d","e","f"];
+  q.opciones.forEach((opt,i)=>{
+    const b = document.createElement("button");
+    b.className = "opt"; b.type = "button";
+    b.innerHTML = '<span class="letter">'+letters[i]+')</span><span>'+esc(opt)+'</span>';
+    b.addEventListener("click", ()=>pick(i,b));
+    box.appendChild(b);
+  });
+  // Repintar estado si la pregunta ya está resuelta (revisión en modo estudio)
+  $("#q-impug").innerHTML = "";
+  if(quiz.mode==="estudio" && done){
+    const opts = document.querySelectorAll("#q-opts .opt");
+    opts.forEach((o,j)=>{
+      if(j===q.correcta) o.classList.add("ok");
+      else if(a!==null && j===a) o.classList.add("ko");
+    });
+    if(q.explicacion){
+      $("#q-explain").innerHTML = "<strong>Explicación:</strong> "+esc(q.explicacion);
+      $("#q-explain").classList.remove("hidden");
+    }
+    $("#q-impug").appendChild(qActions(q, ()=>renderQuestion()));
+  }
+  // En examen, marcar la respuesta seleccionada si la hay
+  if(quiz.mode==="examen" && a!==null){
+    document.querySelectorAll("#q-opts .opt").forEach((o,j)=>o.classList.toggle("sel", j===a));
+  }
+  $("#btn-prev").disabled = quiz.idx===0;
+  $("#btn-next").disabled = quiz.mode==="estudio" && !done;
+  $("#btn-blank").classList.toggle("hidden", quiz.mode === "examen");
+  if(quiz.mode==="estudio" && done) $("#btn-blank").disabled = true; else $("#btn-blank").disabled = false;
+  $("#btn-next").textContent = quiz.idx===quiz.items.length-1 ? "Finalizar" : "Siguiente";
+  renderMap();
+}
+
+/* Mapa de preguntas: estado y salto directo */
+function renderMap(){
+  const map = $("#q-map"); map.innerHTML = "";
+  quiz.items.forEach((q,i)=>{
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = i+1;
+    b.title = "Ir a la pregunta "+(i+1);
+    if(quiz.mode==="estudio"){
+      if(quiz.done[i]){
+        const a = quiz.answers[i];
+        b.classList.add(a===null ? "bk" : (a===q.correcta ? "ok" : "ko"));
+      }
+    } else {
+      if(quiz.answers[i]!==null) b.classList.add("ans");
+    }
+    if(i===quiz.idx) b.classList.add("cur");
+    b.addEventListener("click", ()=>{ quiz.idx=i; renderQuestion(); });
+    map.appendChild(b);
+  });
+}
+
+function pick(i, btn){
+  const q = quiz.items[quiz.idx];
+  if(quiz.mode==="estudio"){
+    if(quiz.done[quiz.idx]) return;
+    quiz.done[quiz.idx] = true;
+    quiz.answers[quiz.idx] = i;
+    const opts = document.querySelectorAll("#q-opts .opt");
+    opts.forEach((o,j)=>{
+      if(j===q.correcta) o.classList.add("ok");
+      else if(j===i) o.classList.add("ko");
+    });
+    if(q.explicacion){
+      $("#q-explain").innerHTML = "<strong>Explicación:</strong> "+esc(q.explicacion);
+      $("#q-explain").classList.remove("hidden");
+    }
+    $("#q-impug").innerHTML = "";
+    $("#q-impug").appendChild(qActions(q, ()=>renderQuestion()));
+    $("#btn-next").disabled = false;
+    $("#btn-blank").disabled = true;
+    renderMap();
+  } else {
+    if(quiz.answers[quiz.idx] === i){
+      quiz.answers[quiz.idx] = null;
+      document.querySelectorAll("#q-opts .opt").forEach(o=>o.classList.remove("sel"));
+      renderMap();
+    } else {
+      quiz.answers[quiz.idx] = i;
+      document.querySelectorAll("#q-opts .opt").forEach((o,j)=>o.classList.toggle("sel", j===i));
+      renderMap();
+      // Autoavance: al responder pasa a la siguiente sin pulsar botón (salvo en la última)
+      if(quiz.idx < quiz.items.length-1){
+        setTimeout(()=>{ if(quiz.active && quiz.answers[quiz.idx]===i){ quiz.idx++; renderQuestion(); } }, 300);
+      }
+    }
+  }
+}
+
+$("#btn-blank").addEventListener("click", ()=>{
+  if(quiz.mode === "examen" || quiz.done[quiz.idx]) return;
+  const q = quiz.items[quiz.idx];
+  quiz.done[quiz.idx] = true;
+  quiz.answers[quiz.idx] = null;
+  document.querySelectorAll("#q-opts .opt").forEach((o,j)=>{ if(j===q.correcta) o.classList.add("ok"); });
+  if(q.explicacion){
+    $("#q-explain").innerHTML = "<strong>Explicación:</strong> "+esc(q.explicacion);
+    $("#q-explain").classList.remove("hidden");
+  }
+  $("#q-impug").innerHTML = "";
+  $("#q-impug").appendChild(qActions(q, ()=>renderQuestion()));
+  $("#btn-next").disabled = false;
+  $("#btn-blank").disabled = true;
+  renderMap();
+});
+
+$("#btn-prev").addEventListener("click", ()=>{
+  if(quiz.idx > 0){ quiz.idx--; renderQuestion(); }
+});
+
+$("#btn-next").addEventListener("click", ()=>{
+  if(quiz.idx < quiz.items.length-1){ quiz.idx++; renderQuestion(); }
+  else {
+    if(quiz.mode==="estudio"){
+      const pend = quiz.done.filter(d=>!d).length;
+      if(pend>0 && !confirm("Quedan "+pend+" preguntas sin resolver (contarán como en blanco). ¿Finalizar igualmente?")) return;
+    }
+    finishQuiz();
+  }
+});
+$("#btn-quit").addEventListener("click", ()=>{
+  if(confirm("¿Abandonar el test? No se guardará nada.")){ stopTimer(); quiz.active=false; show("home"); }
+});
+
+function finishQuiz(){
+  stopTimer();
+  gamiInit(); // por si el progreso viene de una copia antigua sin datos de carrera
+  quiz.active = false;
+  let ok=0, ko=0, blank=0;
+  let xpGained = 0;
+  const XP_DIFF = {facil:1, media:2, dificil:3};
+  quiz.items.forEach((q,i)=>{
+    const a = quiz.answers[i];
+    const st = statFor(q.id);
+    const wasKo = !!st.lastKo; // pendiente antes de este test → bono de redención si se acierta
+    st.seen++;
+    if(a===null){ blank++; st.lastKo=true; st.streak=0; }
+    else if(a===q.correcta){
+      ok++; st.ok++; st.lastKo=false; st.streak=(st.streak||0)+1;
+      xpGained += XP_DIFF[q.dificultad] || 2;
+      if(wasKo) xpGained += 2; // superar una fallada vale más
+      if((q.dificultad||"media")==="dificil") prog.gami.hardOk++;
+    }
+    else { ko++; st.ko++; st.lastKo=true; st.streak=0; }
+    prog.q[q.id] = st;
+  });
+  const raw = Math.max(0, ok - ko * quiz.penalty);
+  const score10 = quiz.items.length>0 ? (10*raw/quiz.items.length) : 0;
+  const apto = score10 >= 5;
+
+  // Actividad del día (para racha y objetivo) y bonos de test
+  prog.gami.total += quiz.items.length;
+  const tk = todayKey();
+  prog.gami.days[tk] = (prog.gami.days[tk]||0) + quiz.items.length;
+  if(apto) xpGained += 5;
+  if(ok === quiz.items.length && blank===0 && quiz.items.length>0) xpGained += 10;
+  prog.gami.xp += xpGained;
+
+  prog.history.unshift({
+    date: new Date().toISOString(),
+    n: quiz.items.length, ok, ko, blank,
+    penalty: quiz.penalty,
+    score: Math.round(score10*100)/100,
+    temas: [...new Set(quiz.items.map(q=>q.tema))]
+  });
+  if(prog.history.length>100) prog.history.length = 100;
+
+  const newMedals = checkMedals({
+    perfect: ok===quiz.items.length && blank===0 && quiz.items.length>=10,
+    aptoExamen50: apto && quiz.mode==="examen" && quiz.items.length>=50 && quiz.penalty>0
+  });
+  save();
+
+  $("#r-score").textContent = (Math.round(score10*100)/100).toLocaleString("es-ES")+" / 10";
+  $("#r-note").textContent = ok+" aciertos · "+ko+" errores"+(blank?(" · "+blank+" en blanco"):"")+(quiz.penalty>0?(" · resta "+quiz.penalty.toLocaleString("es-ES")+" por error"):"");
+  const stamp = $("#r-stamp");
+  stamp.textContent = apto ? "Apto" : "No apto";
+  stamp.className = "stamp " + (apto ? "apto" : "noapto");
+  const rk = rankFor(prog.gami.xp), rkAntes = rankFor(prog.gami.xp - xpGained);
+  let xpLine = "+"+xpGained+" puntos de servicio";
+  const si = streakInfo();
+  if(si.todayDone) xpLine += " · 🔥 racha: "+si.streak+" día"+(si.streak===1?"":"s");
+  if(rk.cur[0] !== rkAntes.cur[0]) xpLine += " · ⬆ ASCENSO: "+rk.cur[0];
+  $("#r-xp").textContent = xpLine;
+  const rev = $("#r-review"); rev.innerHTML = "";
+  quiz.items.forEach((q,i)=>{
+    const a = quiz.answers[i];
+    const good = a===q.correcta;
+    const div = document.createElement("div");
+    div.className = "review-item";
+    let html = '<div class="rq">'+(i+1)+". "+esc(q.pregunta)+"</div>";
+    if(good){
+      html += '<div class="ra ok-t">✔ '+esc(q.opciones[a])+"</div>";
+    } else {
+      html += '<div class="ra ko-t">✘ Tu respuesta: '+(a===null?"(en blanco)":esc(q.opciones[a]))+"</div>";
+      html += '<div class="ra ok-t">✔ Correcta: '+esc(q.opciones[q.correcta])+"</div>";
+    }
+    if(q.explicacion) html += '<div class="ra muted">'+esc(q.explicacion)+"</div>";
+    div.innerHTML = html;
+    rev.appendChild(div);
+  });
+  const failedNow = quiz.items.filter((q,i)=>quiz.answers[i]!==q.correcta);
+  $("#btn-retry-failed").disabled = failedNow.length===0;
+  $("#btn-retry-failed").onclick = ()=>startQuiz(shuffle(failedNow), quiz.mode, quiz.penalty, 0);
+  show("result");
+}
+$("#btn-again").addEventListener("click", ()=>{
+  if(lastCfg){ launchFromCfg(lastCfg); }
+  else show("home");
+});
+$("#btn-home").addEventListener("click", ()=>show("home"));
+
+/* ---------- Cuaderno de errores ---------- */
+function failedEver(){
+  return bank.filter(q => statFor(q.id).ko > 0);
+}
+function cuadernoFiltered(){
+  const tema = $("#cua-tema").value;
+  const estado = $("#cua-estado").value;
+  let qs = failedEver();
+  if(tema) qs = qs.filter(q=>q.tema===tema);
+  if(estado==="pend") qs = qs.filter(q=>statFor(q.id).lastKo);
+  if(estado==="sup") qs = qs.filter(q=>!statFor(q.id).lastKo);
+  // Pendientes primero; dentro de cada grupo, las más falladas arriba
+  qs.sort((a,b)=>{
+    const sa=statFor(a.id), sb=statFor(b.id);
+    if(sa.lastKo!==sb.lastKo) return sa.lastKo ? -1 : 1;
+    if(sb.ko!==sa.ko) return sb.ko-sa.ko;
+    return a.tema.localeCompare(b.tema);
+  });
+  return qs;
+}
+function renderCuaderno(){
+  // Rellenar el filtro de temas conservando la selección
+  const sel = $("#cua-tema");
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">Todos los temas</option>';
+  [...new Set(failedEver().map(q=>q.tema))].sort().forEach(t=>{
+    const o = document.createElement("option"); o.value=t; o.textContent=t; sel.appendChild(o);
+  });
+  if([...sel.options].some(o=>o.value===prev)) sel.value = prev;
+
+  const qs = cuadernoFiltered();
+  const pend = qs.filter(q=>statFor(q.id).lastKo).length;
+  $("#cua-count").textContent = qs.length===0
+    ? "No hay preguntas falladas con estos filtros. Sigue así."
+    : qs.length+" preguntas · "+pend+" pendientes · "+(qs.length-pend)+" superadas";
+  $("#btn-cua-test").disabled = qs.length===0;
+
+  const list = $("#cua-list"); list.innerHTML = "";
+  const letters = ["a","b","c","d","e","f"];
+  qs.forEach(q=>{
+    const st = statFor(q.id);
+    const card = document.createElement("div");
+    card.className = "card";
+    let html = '<div class="badges">'
+      + '<span class="tag">'+esc(q.tema)+'</span>'
+      + '<span class="badge '+(st.lastKo?'pend">Pendiente':'sup">Superada')+'</span>'
+      + '<span class="badge info">✘ '+st.ko+' fallos · ✔ '+st.ok+' aciertos</span>'
+      + '</div>';
+    html += '<p class="cua-q">'+esc(q.pregunta)+'</p>';
+    html += '<div class="opts">';
+    q.opciones.forEach((opt,i)=>{
+      html += '<div class="opt static'+(i===q.correcta?' ok':'')+'">'
+        + '<span class="letter">'+letters[i]+')</span><span>'+esc(opt)+'</span></div>';
+    });
+    html += '</div>';
+    if(q.explicacion) html += '<div class="explain" style="margin-top:12px"><strong>Explicación:</strong> '+esc(q.explicacion)+'</div>';
+    card.innerHTML = html;
+    card.appendChild(qActions(q, ()=>renderCuaderno()));
+    list.appendChild(card);
+  });
+}
+$("#btn-cuaderno").addEventListener("click", ()=>show("cuaderno"));
+$("#btn-cua-back").addEventListener("click", ()=>show("stats"));
+$("#cua-tema").addEventListener("change", renderCuaderno);
+$("#cua-estado").addEventListener("change", renderCuaderno);
+$("#btn-cua-test").addEventListener("click", ()=>{
+  const qs = cuadernoFiltered();
+  if(qs.length===0){ toast("No hay preguntas con estos filtros"); return; }
+  const penalty = Math.max(0, parseFloat($("#cfg-penalty").value) || 0);
+  startQuiz(shuffle(qs), "estudio", penalty, 0);
+});
+
+/* ---------- Preguntas interesantes (vista) ---------- */
+function interesantesAll(){
+  const m = prog.interesantes || {};
+  return bank.filter(q=>m[q.id]).sort((a,b)=>{
+    const fa = m[a.id]||"", fb = m[b.id]||"";
+    if(fa!==fb) return fa<fb?1:-1;      // más recientes primero
+    return a.tema.localeCompare(b.tema);
+  });
+}
+function interFiltered(){
+  const tema = $("#int-tema").value;
+  let qs = interesantesAll();
+  if(tema) qs = qs.filter(q=>q.tema===tema);
+  return qs;
+}
+function renderInter(){
+  const sel = $("#int-tema");
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">Todos los temas</option>';
+  [...new Set(interesantesAll().map(q=>q.tema))].sort().forEach(t=>{
+    const o = document.createElement("option"); o.value=t; o.textContent=t; sel.appendChild(o);
+  });
+  if([...sel.options].some(o=>o.value===prev)) sel.value = prev;
+
+  const qs = interFiltered();
+  $("#int-count").textContent = qs.length===0
+    ? "No hay preguntas marcadas con estos filtros."
+    : qs.length+" pregunta"+(qs.length===1?"":"s")+" marcada"+(qs.length===1?"":"s")+" como interesante"+(qs.length===1?"":"s");
+  $("#btn-int-test").disabled = qs.length===0;
+
+  const list = $("#int-list"); list.innerHTML = "";
+  const letters = ["a","b","c","d","e","f"];
+  qs.forEach(q=>{
+    const st = statFor(q.id);
+    const card = document.createElement("div");
+    card.className = "card";
+    let html = '<div class="badges">'
+      + '<span class="tag">'+esc(q.tema)+'</span>'
+      + '<span class="badge star">★ Interesante</span>'
+      + '<span class="badge info">'+diffLabel(q.dificultad)+' · ✔ '+st.ok+' · ✘ '+st.ko+'</span>'
+      + '</div>';
+    html += '<p class="cua-q">'+esc(q.pregunta)+'</p>';
+    html += '<div class="opts">';
+    q.opciones.forEach((opt,i)=>{
+      html += '<div class="opt static'+(i===q.correcta?' ok':'')+'">'
+        + '<span class="letter">'+letters[i]+')</span><span>'+esc(opt)+'</span></div>';
+    });
+    html += '</div>';
+    if(q.explicacion) html += '<div class="explain" style="margin-top:12px"><strong>Explicación:</strong> '+esc(q.explicacion)+'</div>';
+    card.innerHTML = html;
+    card.appendChild(qActions(q, ()=>renderInter()));
+    list.appendChild(card);
+  });
+}
+$("#btn-inter").addEventListener("click", ()=>show("inter"));
+$("#btn-int-back").addEventListener("click", ()=>show("stats"));
+$("#int-tema").addEventListener("change", renderInter);
+$("#btn-int-test").addEventListener("click", ()=>{
+  const qs = interFiltered();
+  if(qs.length===0){ toast("No hay preguntas con estos filtros"); return; }
+  const penalty = Math.max(0, parseFloat($("#cfg-penalty").value) || 0);
+  startQuiz(shuffle(qs), "estudio", penalty, 0);
+});
+
+/* ---------- Revisión de impugnadas ---------- */
+function impugList(){
+  const imp = prog.impugnadas || {};
+  return Object.keys(imp).map(id=>({id, ...imp[id]}))
+    .sort((a,b)=> (a.fecha<b.fecha?1:-1)); // más recientes primero
+}
+function renderImpug(){
+  const items = impugList();
+  const letters = ["a","b","c","d","e","f"];
+  $("#impug-count").textContent = items.length===0
+    ? "No hay preguntas impugnadas. Cuando marques alguna con ⚑, aparecerá aquí."
+    : items.length+" pregunta"+(items.length===1?"":"s")+" pendiente"+(items.length===1?"":"s")+" de revisar";
+  $("#btn-impug-export").disabled = items.length===0;
+  const list = $("#impug-list"); list.innerHTML = "";
+  items.forEach(it=>{
+    const card = document.createElement("div");
+    card.className = "card";
+    let html = '<div class="badges">'
+      + '<span class="tag">'+esc(it.tema||"")+'</span>'
+      + '<span class="badge pend">Marca: '+letters[it.actual]+') → propones '+letters[it.propuesta]+')</span>'
+      + '<span class="badge info">'+new Date(it.fecha).toLocaleDateString("es-ES")+'</span>'
+      + '</div>';
+    html += '<p class="cua-q">'+esc(it.pregunta)+'</p>';
+    html += '<div class="opts">';
+    (it.opciones||[]).forEach((opt,i)=>{
+      let cls = "opt static";
+      if(i===it.actual) cls += " ko";        // la que el JSON marca ahora (presunto error)
+      if(i===it.propuesta) cls += " ok";      // la que se propone como correcta
+      html += '<div class="'+cls+'"><span class="letter">'+letters[i]+')</span><span>'+esc(opt)+'</span></div>';
+    });
+    html += '</div>';
+    html += '<p class="muted" style="margin-top:8px;font-size:.82rem">Marcada actualmente como correcta la <strong>'+letters[it.actual]+')</strong>; se propone la <strong>'+letters[it.propuesta]+')</strong>.</p>';
+    card.innerHTML = html;
+    const acts = document.createElement("div");
+    acts.className = "impug-actions";
+    const done = document.createElement("button");
+    done.type="button"; done.className="primary"; done.textContent="✓ Marcar como corregida";
+    done.title = "Retírala de la lista (ya la habrás corregido en el JSON)";
+    done.addEventListener("click", ()=>{
+      delete prog.impugnadas[it.id]; save(); renderImpug();
+      toast("Retirada de la lista");
+    });
+    const drop = document.createElement("button");
+    drop.type="button"; drop.className="ghost"; drop.textContent="Descartar (no era un error)";
+    drop.addEventListener("click", ()=>{
+      delete prog.impugnadas[it.id]; save(); renderImpug();
+      toast("Impugnación descartada");
+    });
+    acts.appendChild(done); acts.appendChild(drop);
+    card.appendChild(acts);
+    list.appendChild(card);
+  });
+}
+$("#btn-impug").addEventListener("click", ()=>show("impug"));
+$("#btn-impug-back").addEventListener("click", ()=>show("stats"));
+$("#btn-impug-export").addEventListener("click", ()=>{
+  const items = impugList();
+  if(items.length===0){ toast("No hay impugnadas que exportar"); return; }
+  const letters=["a","b","c","d","e","f"];
+  const txt = items.map(it=>{
+    return "TEMA: "+it.tema+"\n"
+      + "PREGUNTA: "+it.pregunta+"\n"
+      + it.opciones.map((o,i)=>"  "+letters[i]+") "+o+(i===it.actual?"  [marcada correcta]":"")+(i===it.propuesta?"  [propuesta]":"")).join("\n")+"\n"
+      + "→ Cambiar correcta de "+letters[it.actual]+" a "+letters[it.propuesta]+"\n";
+  }).join("\n----------------------------------------\n\n");
+  download("impugnadas_para_revisar.txt", txt);
+});
+
+function updateDiffState(){
+  const exam = $("#cfg-mode").value === "examen";
+  document.querySelectorAll("#cfg-diff input").forEach(i=>{
+    i.disabled = exam;
+    if(exam) i.checked = true;
+  });
+  $("#diff-note").textContent = exam ? "En modo examen entran todas las dificultades mezcladas, como en el examen real." : "";
+  $("#cfg-timer").disabled = !exam;
+  $("#timer-note").textContent = exam ? "0 = sin límite" : "Solo en modo examen";
+  $("#cfg-sr").disabled = exam;
+}
+$("#cfg-mode").addEventListener("change", updateDiffState);
+updateDiffState();
+
+/* ---------- Vista: expediente ---------- */
+function renderStats(){
+  const box = $("#stats-temas"); box.innerHTML = "";
+  const temas = temasList();
+  if(temas.length===0){ box.innerHTML = '<span class="muted">Sin preguntas cargadas.</span>'; }
+  temas.forEach(t=>{
+    const qs = bank.filter(q=>q.tema===t);
+    let ok=0, tot=0;
+    qs.forEach(q=>{ const s=statFor(q.id); ok+=s.ok; tot+=s.ok+s.ko; });
+    const pct = tot>0 ? Math.round(100*ok/tot) : null;
+    const color = pct===null ? "#c9ced8" : pct>=70 ? "var(--green)" : pct>=50 ? "var(--amber)" : "var(--red)";
+    const row = document.createElement("div");
+    row.className = "tema-row";
+    row.innerHTML = '<span class="name" title="'+esc(t)+'">'+esc(t)+'</span>'
+      + '<span class="bar"><span style="width:'+(pct===null?0:pct)+'%;background:'+color+'"></span></span>'
+      + '<span class="pct">'+(pct===null?"sin datos":pct+"% ("+tot+")")+"</span>";
+    box.appendChild(row);
+  });
+
+  const h = $("#stats-history");
+  const fe = failedEver();
+  const fePend = fe.filter(q=>statFor(q.id).lastKo).length;
+  $("#cuaderno-info").textContent = fe.length===0
+    ? "Aún no has fallado ninguna pregunta. Cuando falles alguna en un test, aparecerá aquí resuelta y con su explicación para estudiarla."
+    : "Histórico de todas las preguntas falladas alguna vez, resueltas y con su explicación. Ahora mismo: "+fe.length+" preguntas ("+fePend+" pendientes de superar).";
+  $("#btn-cuaderno").disabled = fe.length===0;
+  const nImp = Object.keys(prog.impugnadas||{}).length;
+  $("#impug-info").textContent = nImp===0
+    ? "Bloc de notas de preguntas marcadas como posibles errores. Aún no hay ninguna: márcalas con ⚑ durante los tests."
+    : "Tienes "+nImp+" pregunta"+(nImp===1?"":"s")+" impugnada"+(nImp===1?"":"s")+" pendiente"+(nImp===1?"":"s")+" de revisar y corregir en el JSON.";
+  $("#btn-impug").disabled = nImp===0;
+  const nInt = interesantesAll().length;
+  $("#inter-info").textContent = nInt===0
+    ? "Aún no has marcado ninguna. Durante los tests, pulsa ☆ en las preguntas que quieras tener frescas aunque las aciertes."
+    : nInt+" pregunta"+(nInt===1?"":"s")+" marcada"+(nInt===1?"":"s")+" con ★. Vuelven más a menudo en la repetición espaciada.";
+  $("#btn-inter").disabled = nInt===0;
+  if(prog.history.length===0){ h.textContent = "Sin tests todavía."; }
+  else {
+    h.innerHTML = prog.history.slice(0,15).map(s=>{
+      const d = new Date(s.date);
+      const fecha = d.toLocaleDateString("es-ES",{day:"2-digit",month:"2-digit",year:"2-digit"})+" "+d.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"});
+      return '<div class="tema-row" style="grid-template-columns:110px 1fr 88px">'
+        + '<span class="name">'+fecha+"</span>"
+        + '<span>'+s.n+" preguntas · "+s.ok+" ✔ · "+s.ko+" ✘"+(s.penalty>0?(" · −"+s.penalty+"/error"):"")+"</span>"
+        + '<span class="pct">'+s.score.toLocaleString("es-ES")+"/10</span></div>";
+    }).join("");
+  }
+}
+
+/* ---------- Banco: carga / exportación ---------- */
+function addQuestions(arr, silent){
+  if(!Array.isArray(arr)) throw new Error("El JSON debe ser una lista [ ... ]");
+  if(!prog.impugnadas) prog.impugnadas = {};
+  let added=0, skipped=0, bad=0, updated=0;
+  arr.forEach(raw=>{
+    if(!raw || typeof raw.pregunta!=="string" || !Array.isArray(raw.opciones)
+       || raw.opciones.length<2 || typeof raw.correcta!=="number"
+       || raw.correcta<0 || raw.correcta>=raw.opciones.length){ bad++; return; }
+    const d = String(raw.dificultad || "media").trim().toLowerCase();
+    const q = {
+      id: hashId(raw.pregunta.trim()),
+      tema: (raw.tema||"General").toString().trim(),
+      pregunta: raw.pregunta.trim(),
+      opciones: raw.opciones.map(String),
+      correcta: raw.correcta,
+      dificultad: d.startsWith("f") ? "facil" : d.startsWith("d") ? "dificil" : "media",
+      explicacion: raw.explicacion ? String(raw.explicacion) : ""
+    };
+    const existente = bank.find(b=>b.id===q.id);
+    if(existente){
+      // Ya existe: si el JSON entrante trae cambios, se actualiza el banco.
+      const cambia = existente.correcta!==q.correcta
+        || JSON.stringify(existente.opciones)!==JSON.stringify(q.opciones)
+        || existente.explicacion!==q.explicacion
+        || existente.tema!==q.tema
+        || existente.dificultad!==q.dificultad;
+      if(cambia){ Object.assign(existente, q); updated++; }
+      else skipped++;
+      // Si había una impugnación pendiente y el JSON ya trae la corrección propuesta,
+      // se retira de la bandeja automáticamente.
+      const imp = prog.impugnadas[q.id];
+      if(imp && q.correcta===imp.propuesta){ delete prog.impugnadas[q.id]; }
+      return;
+    }
+    bank.push(q); added++;
+  });
+  save();
+  if(!silent || added>0 || updated>0){
+    const parts=[];
+    if(added) parts.push(added+" añadidas");
+    if(updated) parts.push(updated+" actualizadas");
+    if(skipped) parts.push(skipped+" sin cambios");
+    if(bad) parts.push(bad+" con formato inválido");
+    toast(parts.join(", ") || "Sin cambios");
+  }
+  renderHome();
+}
+
+$("#file-questions").addEventListener("change", e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{ try{ addQuestions(JSON.parse(r.result)); }catch(err){ toast("Error: "+err.message); } };
+  r.readAsText(f); e.target.value = "";
+});
+$("#btn-paste-load").addEventListener("click", ()=>{
+  const txt = $("#paste-area").value.trim();
+  if(!txt){ toast("El área de texto está vacía"); return; }
+  try{ addQuestions(JSON.parse(txt)); $("#paste-area").value=""; }
+  catch(err){ toast("JSON inválido: "+err.message); }
+});
+$("#btn-export-bank").addEventListener("click", ()=>{
+  download("banco_preguntas.json", JSON.stringify(bank.map(({id,...rest})=>rest), null, 2));
+});
+$("#btn-clear-bank").addEventListener("click", ()=>{
+  if(confirm("¿Vaciar TODO el banco de preguntas? El progreso también se borrará.")){
+    bank=[]; prog={q:{},history:[]}; save(); renderHome(); toast("Banco vaciado");
+  }
+});
+
+/* ---------- Progreso: exportación / importación / reset ---------- */
+function download(name, content){
+  const blob = new Blob([content], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 100);
+}
+$("#btn-export-progress").addEventListener("click", ()=>{
+  download("progreso_tests.json", JSON.stringify({bank, prog}, null, 2));
+});
+$("#file-progress").addEventListener("change", e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const data = JSON.parse(r.result);
+      if(!data.bank || !data.prog) throw new Error("archivo de progreso no reconocido");
+      bank = data.bank; prog = data.prog; save(); renderHome(); renderStats();
+      toast("Progreso importado");
+    }catch(err){ toast("Error: "+err.message); }
+  };
+  r.readAsText(f); e.target.value = "";
+});
+$("#btn-reset").addEventListener("click", ()=>{
+  if(confirm("¿Borrar todo el progreso (estadísticas e historial)? El banco de preguntas se conserva.")){
+    prog = {q:{}, history:[]}; save(); renderStats(); toast("Progreso borrado");
+  }
+});
+
+/* ---------- Preguntas de ejemplo ---------- */
+const DEMO = [
+  {tema:"Tema 1 — Constitución", pregunta:"Según el artículo 104 CE, las Fuerzas y Cuerpos de Seguridad, bajo la dependencia del Gobierno, tendrán como misión...", opciones:["Defender la soberanía nacional","Proteger el libre ejercicio de los derechos y libertades y garantizar la seguridad ciudadana","Garantizar el ordenamiento constitucional"], dificultad:"media", correcta:1, explicacion:"Art. 104.1 CE: proteger el libre ejercicio de los derechos y libertades y garantizar la seguridad ciudadana."},
+  {tema:"Tema 1 — Constitución", pregunta:"La reforma del Título II de la Constitución exige el procedimiento...", opciones:["Ordinario del art. 167","Agravado del art. 168","Referéndum obligatorio del art. 167"], dificultad:"dificil", correcta:1, explicacion:"El Título II (la Corona) está entre las materias protegidas por el procedimiento agravado del art. 168 CE."},
+  {tema:"Tema 2 — LO 2/1986 FCS", pregunta:"Según la LO 2/1986, la creación de Cuerpos de Policía Local corresponde a...", opciones:["Las Comunidades Autónomas","El Ministerio del Interior","Los municipios"], dificultad:"facil", correcta:2, explicacion:"Art. 51.1 LO 2/1986: los municipios podrán crear cuerpos de policía propios."},
+  {tema:"Tema 2 — LO 2/1986 FCS", pregunta:"Los principios básicos de actuación de las FCS se recogen en el artículo...", opciones:["Artículo 5","Artículo 11","Artículo 53"], dificultad:"media", correcta:0, explicacion:"Art. 5 LO 2/1986: adecuación al ordenamiento jurídico, relaciones con la comunidad, tratamiento de detenidos, etc."},
+  {tema:"Tema 4 — Seguridad ciudadana", pregunta:"Conforme a la LO 4/2015, el consumo de drogas tóxicas en lugares públicos constituye una infracción...", opciones:["Leve","Grave","Muy grave"], dificultad:"media", correcta:1, explicacion:"Art. 36.16 LO 4/2015: infracción grave, sancionable con multa de 601 a 30.000 €."},
+  {tema:"Tema 6 — Tráfico", pregunta:"La tasa máxima de alcohol en aire espirado para un conductor novel es de...", opciones:["0,25 mg/l","0,15 mg/l","0,30 mg/l"], dificultad:"facil", correcta:1, explicacion:"Conductores noveles y profesionales: 0,15 mg/l en aire espirado (0,3 g/l en sangre)."},
+  {tema:"Tema 6 — Tráfico", pregunta:"El permiso de conducción de la clase B autoriza a conducir vehículos cuya MMA no exceda de...", opciones:["3.500 kg","4.250 kg","2.500 kg"], dificultad:"facil", correcta:0, explicacion:"Clase B: automóviles con MMA ≤ 3.500 kg y hasta 8 plazas además del conductor."},
+  {tema:"Tema 9 — Régimen local", pregunta:"Según la LRBRL, en los municipios de gran población el órgano competente en materia de sanciones de tráfico es...", opciones:["El Pleno","El Alcalde, salvo delegación","La Junta de Gobierno Local"], dificultad:"dificil", correcta:1, explicacion:"La potestad sancionadora en tráfico corresponde al Alcalde (art. 84 LSV), que puede delegarla."}
+];
+$("#btn-load-demo").addEventListener("click", ()=>addQuestions(DEMO));
+
+/* ---------- Autocarga desde el repositorio (GitHub Pages) ---------- */
+/* Si existe un preguntas.json junto a este index.html, se carga solo.
+   En local (file://) el navegador bloquea fetch: se ignora sin error. */
+fetch("preguntas.json", {cache:"no-store"})
+  .then(r => r.ok ? r.json() : null)
+  .then(arr => { if(arr) addQuestions(arr, true); })
+  .catch(()=>{});
+
+/* ---------- Sincronización con GitHub ---------- */
+const LS_SYNC = "opo_sync_v1";
+const LS_LASTSYNC = "opo_lastsync_v1"; // savedAt de la última copia que coincide entre este navegador y la nube
+const LS_DIRTY = "opo_dirty_v1";       // hay cambios locales posteriores a esa última copia
+let syncCfg = load(LS_SYNC, {owner:"", repo:"", token:"", auto:false});
+$("#sync-owner").value = syncCfg.owner || "";
+$("#sync-repo").value = syncCfg.repo || "";
+$("#sync-token").value = syncCfg.token || "";
+$("#sync-auto").checked = !!syncCfg.auto;
+
+function readSyncCfg(){
+  syncCfg = {
+    owner: $("#sync-owner").value.trim(),
+    repo: $("#sync-repo").value.trim(),
+    token: $("#sync-token").value.trim(),
+    auto: $("#sync-auto").checked
+  };
+  try{ localStorage.setItem(LS_SYNC, JSON.stringify(syncCfg)); }catch(e){}
+  return syncCfg.owner && syncCfg.repo;
+}
+$("#sync-auto").addEventListener("change", readSyncCfg);
+function syncStatus(msg){ $("#sync-status").textContent = msg; }
+function syncBusy(b){
+  $("#btn-sync-save").disabled = b;
+  $("#btn-sync-load").disabled = b;
+}
+function b64encode(str){
+  const bytes = new TextEncoder().encode(str);
+  let bin = "";
+  for(let i=0;i<bytes.length;i+=0x8000){
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i+0x8000));
+  }
+  return btoa(bin);
+}
+function b64decode(b64){
+  const bin = atob(b64.replace(/\s/g,""));
+  const bytes = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+function ghHeaders(){
+  const h = {"Accept":"application/vnd.github+json"};
+  if(syncCfg.token) h["Authorization"] = "Bearer " + syncCfg.token;
+  return h;
+}
+function ghUrlFor(owner, repo, file){
+  return "https://api.github.com/repos/"+owner+"/"+repo+"/contents/"+file;
+}
+function ghUrl(){
+  return ghUrlFor(syncCfg.owner, syncCfg.repo, "progreso.json");
+}
+async function ghGetFile(owner, repo, file, token){
+  const h = {"Accept":"application/vnd.github+json"};
+  if(token) h["Authorization"] = "Bearer " + token;
+  const r = await fetch(ghUrlFor(owner,repo,file)+"?t="+Date.now(), {headers: h, cache:"no-store"});
+  if(r.status === 404) return null;
+  if(!r.ok) throw new Error("GitHub respondió "+r.status+(r.status===401?" (token inválido o caducado)":r.status===403?" (sin permiso sobre el repositorio)":""));
+  const j = await r.json();
+  return { data: JSON.parse(b64decode(j.content)), sha: j.sha };
+}
+async function ghPutFile(owner, repo, file, token, payload, sha){
+  const h = {"Accept":"application/vnd.github+json"};
+  if(token) h["Authorization"] = "Bearer " + token;
+  const body = {
+    message: "Sync "+file+" "+new Date().toISOString(),
+    content: b64encode(JSON.stringify(payload))
+  };
+  if(sha) body.sha = sha;
+  const r = await fetch(ghUrlFor(owner,repo,file), {method:"PUT", headers: h, body: JSON.stringify(body)});
+  if(!r.ok){
+    const msg = r.status===401 ? "token inválido o caducado"
+      : r.status===403 ? "el token no tiene permiso de escritura (Contents: Read and write)"
+      : r.status===404 ? "repositorio no encontrado (¿nombre correcto? ¿token con acceso a él?)"
+      : r.status===409 ? "conflicto: alguien guardó a la vez, vuelve a intentarlo"
+      : "GitHub respondió "+r.status;
+    throw new Error(msg);
+  }
+}
+async function ghGet(){
+  return ghGetFile(syncCfg.owner, syncCfg.repo, "progreso.json", syncCfg.token);
+}
+async function ghPut(payload, sha){
+  return ghPutFile(syncCfg.owner, syncCfg.repo, "progreso.json", syncCfg.token, payload, sha);
+}
+async function doCloudSave(){
+  const remote = await ghGet();
+  const savedAt = new Date().toISOString();
+  await ghPut({bank, prog, savedAt}, remote ? remote.sha : null);
+  try{
+    localStorage.setItem(LS_LASTSYNC, savedAt);
+    localStorage.removeItem(LS_DIRTY);
+  }catch(e){}
+  return savedAt;
+}
+async function doCloudLoad(remote){
+  bank = remote.data.bank || [];
+  prog = remote.data.prog || {q:{}, history:[]};
+  save(true); // fromCloud: no marca cambios pendientes ni relanza el autoguardado
+  try{ localStorage.setItem(LS_LASTSYNC, remote.data.savedAt || ""); }catch(e){}
+  renderHome(); renderStats();
+}
+$("#btn-sync-save").addEventListener("click", async ()=>{
+  if(!readSyncCfg()){ syncStatus("Rellena usuario y repositorio."); return; }
+  if(!syncCfg.token){ syncStatus("Para guardar hace falta el token."); return; }
+  syncBusy(true); syncStatus("Guardando…");
+  try{
+    const savedAt = await doCloudSave();
+    syncStatus("Guardado en la nube: "+new Date(savedAt).toLocaleString("es-ES"));
+    toast("Progreso guardado en GitHub");
+  }catch(err){ syncStatus("Error al guardar: "+err.message); }
+  syncBusy(false);
+});
+$("#btn-sync-load").addEventListener("click", async ()=>{
+  if(!readSyncCfg()){ syncStatus("Rellena usuario y repositorio."); return; }
+  syncBusy(true); syncStatus("Cargando…");
+  try{
+    const remote = await ghGet();
+    if(!remote){ syncStatus("Aún no hay progreso.json en el repositorio. Guarda primero desde algún dispositivo."); syncBusy(false); return; }
+    const when = remote.data.savedAt ? new Date(remote.data.savedAt).toLocaleString("es-ES") : "fecha desconocida";
+    if(!confirm("Se sustituirá el progreso y el banco de este navegador por la copia de la nube ("+when+"). ¿Continuar?")){
+      syncStatus(""); syncBusy(false); return;
+    }
+    await doCloudLoad(remote);
+    syncStatus("Cargado de la nube: "+when);
+    toast("Progreso cargado de GitHub");
+  }catch(err){ syncStatus("Error al cargar: "+err.message); }
+  syncBusy(false);
+});
+
+/* ---------- Autoguardado (debounced) tras cada cambio local ---------- */
+let autoSyncTimer = null;
+function scheduleAutoSync(){
+  if(!(syncCfg.owner && syncCfg.repo && syncCfg.token && syncCfg.auto)) return;
+  clearTimeout(autoSyncTimer);
+  autoSyncTimer = setTimeout(async ()=>{
+    try{
+      const savedAt = await doCloudSave();
+      syncStatus("Sincronizado automáticamente: "+new Date(savedAt).toLocaleString("es-ES"));
+    }catch(err){ syncStatus("No se pudo sincronizar automáticamente: "+err.message); }
+  }, 2500);
+}
+
+/* Comprobar la nube y cargar automáticamente la copia más reciente, para que
+   todos los dispositivos queden siempre al día. Única excepción: si hay cambios
+   locales sin subir Y la nube tiene algo más nuevo (conflicto real), se pregunta
+   antes de sobrescribir, para no perder trabajo no sincronizado. */
+let comprobandoNube = false;
+async function comprobarNube(){
+  if(comprobandoNube) return;
+  if(!(syncCfg.owner && syncCfg.repo)) return;
+  if(quiz.active) return; // no interrumpir un test en curso
+  comprobandoNube = true;
+  try{
+    const remote = await ghGet();
+    if(!remote || !remote.data.savedAt) return;
+    const last = localStorage.getItem(LS_LASTSYNC) || "";
+    if(remote.data.savedAt <= last) return; // ya estamos al día
+
+    // La copia de la nube siempre manda: se carga sin preguntar.
+    const cuando = new Date(remote.data.savedAt).toLocaleString("es-ES");
+    await doCloudLoad(remote);
+    syncStatus("Actualizado automáticamente desde la nube ("+cuando+").");
+    toast("✓ Se ha cargado una copia más reciente de la nube");
+  }catch(e){}
+  finally{ comprobandoNube = false; }
+}
+// Al abrir la app
+comprobarNube();
+// Al volver a la pestaña (desbloquear móvil, cambiar de app y volver, etc.)
+document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) comprobarNube(); });
+
+/* ---------- Init ---------- */
+renderHome();
+})();
+</script>
+</body>
+</html>
